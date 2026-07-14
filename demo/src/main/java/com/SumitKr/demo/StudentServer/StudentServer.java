@@ -1,23 +1,28 @@
 package com.SumitKr.demo.StudentServer;
 
-import com.SumitKr.demo.Student;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class StudentServer {
     //1. Store the student
-    @PostMapping("/Create")
-    public String storeStudent(Student student) {
+    @PostMapping("/create")
+    public String storeStudent(@RequestBody Student student) {
+
+        int id= student.getId();
+        String name=student.getName();
+        int age=student.getAge();
+        String department=student.getDepartment();
         return """
                 id : 1
                 Name : Sumit Kumar
-                Department : CSE
                 Age : 20
+                Department : CSE
                 """;
     }
     //2. Read the Student with id
+
 
     //3. Update the student information
     //4. delete the student information
