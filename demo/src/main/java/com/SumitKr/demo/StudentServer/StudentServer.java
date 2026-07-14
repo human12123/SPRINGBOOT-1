@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class StudentServer {
-    //1. Store the student
-    @PostMapping("/create")
-    public String storeStudent(@RequestBody Student student) {
-
-        int id= student.getId();
-        String name=student.getName();
-        int age=student.getAge();
-        String department=student.getDepartment();
-        return "id : " + id +
-                ", Name : " + name +
-                ", Age : " + age +
-                ", Department : " + department;
-    }
+//    //1. Store the student
+//    @PostMapping("/create")
+//    public String storeStudent(@RequestBody Student student) {
+//
+//        int id= student.getId();
+//        String name=student.getName();
+//        int age=student.getAge();
+//        String department=student.getDepartment();
+//        return "id : " + id +
+//                ", Name : " + name +
+//                ", Age : " + age +
+//                ", Department : " + department;
+//    }
     //2. Read the Student with id
 
 
