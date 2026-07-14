@@ -14,12 +14,10 @@ public class StudentServer {
         String name=student.getName();
         int age=student.getAge();
         String department=student.getDepartment();
-        return """
-                id : 1
-                Name : Sumit Kumar
-                Age : 20
-                Department : CSE
-                """;
+        return "id : " + id +
+                ", Name : " + name +
+                ", Age : " + age +
+                ", Department : " + department;
     }
     //2. Read the Student with id
 
