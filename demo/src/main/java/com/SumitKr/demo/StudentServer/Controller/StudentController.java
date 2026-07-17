@@ -1,7 +1,8 @@
-package com.SumitKr.demo.StudentServer;
+package com.SumitKr.demo.StudentServer.Controller;
 
+import com.SumitKr.demo.StudentServer.Service.StudentService;
+import com.SumitKr.demo.StudentServer.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,5 +28,7 @@ public class StudentController {
         }
 
         return ResponseEntity.status(201).body(result);
+
     }
+
 }

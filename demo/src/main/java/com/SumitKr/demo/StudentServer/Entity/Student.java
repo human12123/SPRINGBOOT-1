@@ -1,10 +1,17 @@
-package com.SumitKr.demo.StudentServer;
+package com.SumitKr.demo.StudentServer.Entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Student {
-    int id;
-    String name;
-    int age;
-    String Department;
+
+    @Id
+    private int id;
+
+    private String name;
+    private int age;
+    private String department;
 
     public int getId() {
         return id;
@@ -31,10 +38,10 @@ public class Student {
     }
 
     public String getDepartment() {
-        return Department;
+        return department;
     }
 
     public void setDepartment(String department) {
-        Department = department;
+        this.department = department;
     }
 }
