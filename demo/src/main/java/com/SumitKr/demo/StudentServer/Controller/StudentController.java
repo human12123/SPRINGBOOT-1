@@ -1,15 +1,14 @@
 package com.SumitKr.demo.StudentServer.Controller;
 
-import com.SumitKr.demo.StudentServer.Service.StudentService;
 import com.SumitKr.demo.StudentServer.Entity.Student;
+import com.SumitKr.demo.StudentServer.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class StudentController {
+
     StudentService studentService;
 
     @Autowired
@@ -17,18 +16,20 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-
     @PostMapping("/create")
-    public ResponseEntity<Student> storeStudent(@RequestBody Student student) {
-
+    public ResponseEntity<?> storeStudent(@RequestBody Student student) {
         Student result = studentService.studentValidate(student);
 
         if (result == null) {
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).body("Invalid input");
         }
 
         return ResponseEntity.status(201).body(result);
-
     }
 
+    @GetMapping("/getStudent/{id}")
+    public ResponseEntity<?> getStudentById(@PathVariable int id) {
+        Student student = studentService.getStudentById(id);
+        return ResponseEntity.status(200).body(student);
+    }
 }

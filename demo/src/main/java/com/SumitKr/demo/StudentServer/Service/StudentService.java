@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentService {
 
-    private final StudentRepository studentRepository;
+    StudentRepository studentRepository;
 
     @Autowired
     public StudentService(StudentRepository studentRepository) {
@@ -26,7 +26,8 @@ public class StudentService {
             return null;
         }
 
-        return studentRepository.save(student);
+        studentRepository.save(student);
+        return student;
     }
 
     public Student getStudentById(int id) {
