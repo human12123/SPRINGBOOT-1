@@ -18,6 +18,7 @@ public class StudentController {
 
     @PostMapping("/create")
     public ResponseEntity<?> storeStudent(@RequestBody Student student) {
+
         Student result = studentService.studentValidate(student);
 
         if (result == null) {
@@ -29,7 +30,38 @@ public class StudentController {
 
     @GetMapping("/getStudent/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable int id) {
+
         Student student = studentService.getStudentById(id);
+
+        if (student == null) {
+            return ResponseEntity.status(404).body("Student Not Found");
+        }
+
         return ResponseEntity.status(200).body(student);
+    }
+
+    @PutMapping("/updateStudent/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable int id,
+                                           @RequestBody Student student) {
+
+        Student updatedStudent = studentService.updateStudent(id, student);
+
+        if (updatedStudent == null) {
+            return ResponseEntity.status(404).body("Student Not Found");
+        }
+
+        return ResponseEntity.status(200).body(updatedStudent);
+    }
+
+    @DeleteMapping("/deleteStudent/{id}")
+    public ResponseEntity<?> deleteStudent(@PathVariable int id) {
+
+        String message = studentService.deleteStudent(id);
+
+        if (message.equals("Student Not Found")) {
+            return ResponseEntity.status(404).body(message);
+        }
+
+        return ResponseEntity.status(200).body(message);
     }
 }
