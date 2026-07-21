@@ -2,8 +2,11 @@ package com.SumitKr.demo.StudentServer.Controller;
 
 import com.SumitKr.demo.StudentServer.DTO.CreateStudentRequestDTO;
 import com.SumitKr.demo.StudentServer.DTO.CreateStudentResponseDTO;
+import com.SumitKr.demo.StudentServer.DTO.UpdateStudentRequestDTO;
+import com.SumitKr.demo.StudentServer.DTO.UpdateStudentResponseDTO;
 import com.SumitKr.demo.StudentServer.Entity.Student;
 import com.SumitKr.demo.StudentServer.Service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +23,13 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> storeStudent(@RequestBody CreateStudentRequestDTO createStudentRequestDTO) {
+    public ResponseEntity<?> storeStudent(
+            @Valid @RequestBody CreateStudentRequestDTO dto) {
 
-        CreateStudentResponseDTO result = studentService.studentValidate(createStudentRequestDTO);
+        CreateStudentResponseDTO response =
+                studentService.studentValidate(dto);
 
-        if (result == null) {
-            return ResponseEntity.badRequest().body("Validation Failed");
-        }
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/getStudent/{id}")
@@ -40,10 +41,12 @@ public class StudentController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateStudent(@PathVariable int id,
-                                           @RequestBody Student student) {
+    public ResponseEntity<?> updateStudent(
+            @PathVariable int id,
+            @Valid @RequestBody UpdateStudentRequestDTO dto) {
 
-        Student result = studentService.updateStudent(id, student);
+        UpdateStudentResponseDTO result =
+                studentService.updateStudent(id, dto);
 
         if (result == null) {
             return ResponseEntity.badRequest().body("Student Not Found");
@@ -61,6 +64,6 @@ public class StudentController {
             return ResponseEntity.badRequest().body("Student Not Found");
         }
 
-        return ResponseEntity.status(200).body("Student deleted");
+        return ResponseEntity.ok("Student deleted");
     }
 }
