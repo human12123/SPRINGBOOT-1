@@ -19,25 +19,26 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    // Create Student
-    public CreateStudentResponseDTO studentValidate(CreateStudentRequestDTO createStudentRequestDTO) {
+    public CreateStudentResponseDTO studentValidate(CreateStudentRequestDTO dto) {
 
-        Student student = mapToStudent(createStudentRequestDTO);
+        Student student = mapToStudent(dto);
 
         student = studentRepository.save(student);
 
         return mapToResponseDTO(student);
     }
 
-    // Get Student by ID
-    public Student getStudentById(int id) {
-        return studentRepository.findById(id).orElse(null);
+    public Student getStudentById(int id) throws Exception {
+
+        return studentRepository
+                .findById(id)
+                .orElseThrow(() -> new Exception());
     }
 
-    // Update Student
     public Student updateStudent(int id, Student student) {
 
-        Student existingStudent = studentRepository.findById(id).orElse(null);
+        Student existingStudent =
+                studentRepository.findById(id).orElse(null);
 
         if (existingStudent == null) {
             return null;
@@ -51,10 +52,10 @@ public class StudentService {
         return studentRepository.save(existingStudent);
     }
 
-    // Delete Student
     public Student deleteStudent(int id) {
 
-        Student student = studentRepository.findById(id).orElse(null);
+        Student student =
+                studentRepository.findById(id).orElse(null);
 
         if (student == null) {
             return null;
@@ -65,7 +66,6 @@ public class StudentService {
         return student;
     }
 
-    // Convert Request DTO -> Entity
     private Student mapToStudent(CreateStudentRequestDTO dto) {
 
         Student student = new Student();
@@ -73,16 +73,17 @@ public class StudentService {
         student.setName(dto.getName());
         student.setAge(dto.getAge());
         student.setDepartment(dto.getDepartment());
+
         student.setCreatedAt(LocalDateTime.now());
         student.setUpdatedAt(LocalDateTime.now());
 
         return student;
     }
 
-    // Convert Entity -> Response DTO
     private CreateStudentResponseDTO mapToResponseDTO(Student student) {
 
-        CreateStudentResponseDTO response = new CreateStudentResponseDTO();
+        CreateStudentResponseDTO response =
+                new CreateStudentResponseDTO();
 
         response.setId(student.getId());
         response.setName(student.getName());

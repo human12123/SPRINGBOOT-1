@@ -12,38 +12,55 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/student")
 public class StudentController {
 
+    private final StudentService studentService;
+
     @Autowired
-    StudentService studentService;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @PostMapping("/create")
-    public ResponseEntity<?> storeStudent(
-            @RequestBody CreateStudentRequestDTO createStudentRequestDTO) {
+    public ResponseEntity<?> storeStudent(@RequestBody CreateStudentRequestDTO createStudentRequestDTO) {
 
-        CreateStudentResponseDTO result =
-                studentService.studentValidate(createStudentRequestDTO);
+        CreateStudentResponseDTO result = studentService.studentValidate(createStudentRequestDTO);
 
-        if(result == null){
-            return ResponseEntity.badRequest().body("Invalid Student");
+        if (result == null) {
+            return ResponseEntity.badRequest().body("Validation Failed");
         }
 
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/{id}")
-    public Student getStudent(@PathVariable int id){
-        return studentService.getStudentById(id);
+    @GetMapping("/getStudent/{id}")
+    public ResponseEntity<?> getStudentById(@PathVariable int id) throws Exception {
+
+        Student student = studentService.getStudentById(id);
+
+        return ResponseEntity.ok(student);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteStudent(@PathVariable int id){
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable int id,
+                                           @RequestBody Student student) {
 
-        Student result = studentService.deleteStudent(id);
+        Student result = studentService.updateStudent(id, student);
 
-        if(result==null){
+        if (result == null) {
             return ResponseEntity.badRequest().body("Student Not Found");
         }
 
-        return ResponseEntity.ok("Student deleted");
+        return ResponseEntity.ok(result);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteStudent(@PathVariable int id) {
+
+        Student result = studentService.deleteStudent(id);
+
+        if (result == null) {
+            return ResponseEntity.badRequest().body("Student Not Found");
+        }
+
+        return ResponseEntity.status(200).body("Student deleted");
+    }
 }

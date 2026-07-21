@@ -1,6 +1,8 @@
 package com.SumitKr.demo.StudentServer.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,6 +14,7 @@ public class Student {
 
     private String name;
 
+    @Min(value = 1, message = "Age must be greater than 0")
     private int age;
 
     private String department;
